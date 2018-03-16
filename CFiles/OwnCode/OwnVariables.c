@@ -15,44 +15,37 @@ right : right control value
 #define TRANSLATION 1
 #define STOP 2
 
-//Controller type
+//initialize the Controller
 int control_type = ROTATION;
 
 // The desired angle
 double theta_R = 0.0;
 
-// The robot cannot (in general) be rotated *exactly* theta_R degrees
-/*double angle_tolerance = 6;*/
-double angle_tolerance = 2.0;
-
-// The robot cannot (in general) be translated *exactly* to the goal (cm)
-/*double distance_tolerance = 20;*/
-double distance_tolerance = 1.0;
-
 // Sampling time
-double h = 1.0;
+double h = 0.000001;
 
 // v (input to translate) and w (input to rotate)
 double w = 0.0;
 double v = 0.0;
 
-// Part I of Rotation Control
+//Rotation Proportional Controller (Task 6)
 double r_K_psi_min = 0.0;
-double r_K_psi_max = 2.0 * L_true / (R_true * Ts);
-double r_K_psi = r_K_psi_max * 0.1;
+double r_K_psi_max = 2.0 * L_true / (R_true * h);
+double r_K_psi = r_K_psi_max * 0.00002;
 
-// Part II of Rotation Control
-double r_K_omega_min = 0.0;
-double r_K_omega_max = 2.0 / (R_true * h);
-double r_K_omega = r_K_omega_max * 0.5;
 
-// Part II of Line Following Control
-double t_p = 40.0;
-double t_K_psi_min = -2.0 * L_true / (t_p * h * R_true);
-double t_K_psi_max = 0.0;
-double t_K_psi = t_K_psi_min * 0.5;
+//Rotation Proportional Controller (Task 8)
+double r_K_omega_min = 0.0 ;
+double r_K_omega_max = 2 / (R_true * h);
+double r_K_omega = r_K_omega_max * 0.00000001;
 
-// Part I of Line Following Control
-double t_K_omega_min = 0.0;
-double t_K_omega_max = 2.0 / (R_true * h);
-double t_K_omega = t_K_omega_max * 0.1;
+//translation Proportional controller (Task 10)
+double t_K_omega_min = 0.0 ;
+double t_K_omega_max = 2 / (R_true * h);
+double t_K_omega = t_K_omega_max * 0.000000003;
+
+//translation proportional controller (Task 14)
+double p = 10 ; // the design parameter 50
+double t_K_psi_min = 0.0 ;
+double t_K_psi_max = 2 * L_true / (h*p*R_true);
+double t_K_psi = t_K_psi_max *0.000005;
